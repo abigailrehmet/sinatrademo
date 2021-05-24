@@ -1,0 +1,19 @@
+<html>
+<head>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+function callEndpoint() {
+    $.getJSON('/cakes.json', function(data) {
+        data.cakelist.forEach((item, i) => {
+          $('#output').append("<li>" + item + "</li>");
+        });
+    });
+}
+callEndpoint();
+</script>
+<body>
+  <ol>
+    <div id="output"></div>
+  </ol>
+</body>
+</html>
