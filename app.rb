@@ -1,9 +1,14 @@
 require 'sinatra'
 require 'sinatra/json'
 require 'sinatra/activerecord'
-#require 'cake.rb'
+require_relative 'models/cake.rb'
+require 'pg'
+require 'uri'
+require 'net/http'
 
 #class App < Sinatra::Base
+
+=begin
   get '/' do
     line_num = 0
     output = ""
@@ -13,6 +18,33 @@ require 'sinatra/activerecord'
     output
   end
 #end
+=end
+
+
+get '/' do
+  erb :add
+end
+
+post '/show' do
+  @name = params['cname']
+  @cake = Cake.new("#{@name}")
+
+
+  @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
+  @conn.exec("INSERT INTO info (name) VALUES ('#{@name}')")
+  @conn.close if @conn
+
+  #@cake.getName
+
+
+  erb :show
+end
+
+post '/index' do
+  #cake = Cake.new("cake name")
+  #json :cakeName => cake.name
+  erb :index
+end
 
 =begin
 get('/index') {

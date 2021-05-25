@@ -3,7 +3,6 @@ class CreateCakeInfo < ActiveRecord::Migration[6.1]
       create_table :info do |t|
         t.string :name, :null => false
 
-        t.timestamps
       end
     end
   end
