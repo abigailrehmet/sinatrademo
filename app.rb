@@ -52,25 +52,30 @@ get '/show.json' do
 end
 
 post '/index' do
-  #cake = Cake.new("cake name")
-  #json :cakeName => cake.name
+  erb :index
+end
+
+get '/index.json' do
   @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
   res = @conn.exec("SELECT name FROM info;")
   @conn.close if @conn
-  #@id = res[0]["id"]
-
   @cake_arr = Array.new
   res.each do |cake|
     @cake_arr.push(cake)
   end
-
-  "#{@cake_arr}"
-
-
-
-  #erb :index
+  json :cakeList => @cake_arr
+  #"#{@cake_arr}"
 end
 
+post '/edit' do
+  #@old_name = params['oldName']
+  erb :edit
+end
+
+post '/delete' do
+  #@old_name = params['oldName']
+  erb :delete
+end
 
 
 =begin
