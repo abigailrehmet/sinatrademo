@@ -38,14 +38,17 @@ end
 
 
 get '/show.json' do
-  @cakename = @cake.getName
   @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
-  #get the cake from db
+  #get cake name from db
+  res = @conn.exec("select name from info order by id desc limit 1;")
+  c = Cake.new(res[0]["name"])
+  @cakename = c.getName()
+  #get the cake id from db
   res = @conn.exec("SELECT id FROM info WHERE name = '#{@cakename}' limit 1;")
   @id = res[0]["id"]
-  cake.setId(@id)
+  c.setId(@id)
   @conn.close if @conn
-  json :yourCake => @cake
+  json :yourCake => c
 end
 
 post '/index' do

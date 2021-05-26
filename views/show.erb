@@ -2,15 +2,26 @@
 <head>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script type="text/javascript">
+  $( document ).ready( callE );
   function callE() {
-            $('#output').append("testing");
+    $.getJSON('/show.json', function(data) {
+      $('#name_output').append(data.yourCake["name"]);
+      $('#id_output').append(data.yourCake["id"]);
+    });
   }
   callE();
   </script>
 </head>
 
 <body>
-  <h1>printing?</h1>
-  <div id="output">  </div>
+  <h1>Your cake info:</h1>
+
+  <p id="name_output">Name: </p>
+  <p id="id_output">Id: </p>
+
+  <form action="/index" method="post" target="_blank">
+    <input type="submit" value="See all cakes">
+  </form>
+
 </body>
 </html>

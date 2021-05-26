@@ -11,11 +11,11 @@ class Cake
     @id = 1
   end
 
-  def getName
+  def getName()
     return @name
   end
 
-  def getId
+  def getId()
     return @id
   end
 
