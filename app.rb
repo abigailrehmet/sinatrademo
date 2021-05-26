@@ -20,6 +20,7 @@ require 'net/http'
 #end
 =end
 
+cake = Cake.new("hi")
 
 get '/' do
   erb :add
@@ -27,24 +28,47 @@ end
 
 post '/show' do
   @name = params['cname']
-  @cake = Cake.new("#{@name}")
-
-
+  cake.setName('#{@name}')
   @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
+  #put the cake into db
   @conn.exec("INSERT INTO info (name) VALUES ('#{@name}')")
   @conn.close if @conn
-
-  #@cake.getName
-
-
   erb :show
+end
+
+
+get '/show.json' do
+  @cakename = @cake.getName
+  @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
+  #get the cake from db
+  res = @conn.exec("SELECT id FROM info WHERE name = '#{@cakename}' limit 1;")
+  @id = res[0]["id"]
+  cake.setId(@id)
+  @conn.close if @conn
+  json :yourCake => @cake
 end
 
 post '/index' do
   #cake = Cake.new("cake name")
   #json :cakeName => cake.name
-  erb :index
+  @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
+  res = @conn.exec("SELECT name FROM info;")
+  @conn.close if @conn
+  #@id = res[0]["id"]
+
+  @cake_arr = Array.new
+  res.each do |cake|
+    @cake_arr.push(cake)
+  end
+
+  "#{@cake_arr}"
+
+
+
+  #erb :index
 end
+
+
 
 =begin
 get('/index') {
