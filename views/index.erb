@@ -1,22 +1,62 @@
-<!-- Showing the list of all cakes-->
-<!-- Pulled from the database -->
 <html>
+<head>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script type="text/javascript">
+
+  $( document ).ready( callEndpt );
+
+  function callEndpt() {
+    $.getJSON('/index.json', function(data) {
+      data.cakeList.forEach((item, i) => {
+          $('#cake_list').append("<li>" + item["name"] + "</li>");
+      });
+    });
+  }
+
+  </script>
+</head>
+
 <body>
 
+
+
+  <p>Edit or delete a cake by typing in the boxes, followed by their respective buttons:
+  </p>
+  <p>
+    old cake name: <input type="text" id="ogName">
+    new cake name: <input type="text" id="newName">
+    <button id="eBtn">Edit</button>
+  </p>
+  <p>
+    <input type="text" id="deleteName">
+    <button id="dBtn">Delete</button>
+  </p>
+
+  <script>
+
+    $(document).ready(function() {
+      $("#eBtn").click(function () {
+        var curNameInput = $('#ogName').val();
+        var newNameInput = $('#newName').val();
+        alert("Edit! " + curNameInput + " " + newNameInput);
+        //FIGURE OUT HOW TO POST HERE
+      });
+    });
+
+    $(document).ready(function() {
+      $("#dBtn").click(function () {
+        var delNameInput = $('#deleteName').val();
+        alert("Delete! " + delNameInput);
+        //FIGURE OUT HOW TO POST HERE
+      });
+    });
+  </script>
+
+
+
+
 <h1>Cakes:</h1>
-
-/*$.getJSON( "ajax/test.json", function( data ) {
-  var items = [];
-  $.each( data, function( key, val ) {
-    items.push( "<li id='" + key + "'>" + val + "</li>" );
-  });
-
-  $( "<ul/>", {
-    "class": "my-new-list",
-    html: items.join( "" )
-  }).appendTo( "body" );
-});
-*/
+<ol id="cake_list"> </ol>
 
 
 </body>
