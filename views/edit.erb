@@ -1,1 +1,28 @@
 //edit page to edit a cake's info
+
+
+<html>
+<head>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script type="text/javascript">
+  function callEndpoint() {
+    $.getJSON('/show.json', function(data) {
+      $('#output').append("HIIIII");
+    });
+  }
+  callEndpoint();
+  </script>
+</head>
+<body>
+
+<h1>Your cake info:</h1>
+<div id="output"></div>
+<p>Name: </p>
+<p>Id: </p>
+
+<form action="/index" method="post" target="_blank">
+  <input type="submit" value="See all cakes">
+</form>
+
+</body>
+</html>

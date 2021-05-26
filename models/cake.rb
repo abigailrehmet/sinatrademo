@@ -14,6 +14,18 @@ class Cake
   def getName
     return @name
   end
+
+  def getId
+    return @id
+  end
+
+  def setId(a_id)
+    @id = a_id
+  end
+
+  def setName(a_name)
+    @name = a_name
+  end
 end
 
 
