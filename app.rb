@@ -31,7 +31,7 @@ cake = Cake.new("hi")
   post '/show' do
     @name = params['cname']
     cake.setName('#{@name}')
-    @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
+    @conn = PG.connect(dbname: 'app-dev', user: 'user')
     #put the cake into db
     @conn.exec("INSERT INTO info (name) VALUES ('#{@name}')")
     @conn.close if @conn
@@ -41,7 +41,7 @@ cake = Cake.new("hi")
 
 
   get '/show.json' do
-    @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
+    @conn = PG.connect(dbname: 'app-dev', user: 'user')
     #get cake name from db
     res = @conn.exec("select name from info order by id desc limit 1;")
     c = Cake.new(res[0]["name"])
