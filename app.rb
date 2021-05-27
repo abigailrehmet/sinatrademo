@@ -21,13 +21,13 @@ require 'net/http'
 
 cake = Cake.new("hi")
 
-class App < Sinatra::Base
+
   get '/' do
     erb :add
   end
-end
 
-class App < Sinatra::Base
+
+
   post '/show' do
     @name = params['cname']
     cake.setName('#{@name}')
@@ -37,9 +37,9 @@ class App < Sinatra::Base
     @conn.close if @conn
     erb :show
   end
-end
 
-class App < Sinatra::Base
+
+
   get '/show.json' do
     @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
     #get cake name from db
@@ -53,15 +53,15 @@ class App < Sinatra::Base
     @conn.close if @conn
     json :yourCake => c
   end
-end
 
-class App < Sinatra::Base
+
+
   post '/index' do
     erb :index
   end
-end
 
-class App < Sinatra::Base
+
+
   get '/index.json' do
     @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
     res = @conn.exec("SELECT name FROM info;")
@@ -73,15 +73,15 @@ class App < Sinatra::Base
     json :cakeList => @cake_arr
     #"#{@cake_arr}"
   end
-end
 
-class App < Sinatra::Base
+
+
   post '/edit' do
     erb :edit
   end
-end
 
-class App < Sinatra::Base
+
+
   get '/edit.json' do
     @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
     res = @conn.exec("SELECT name FROM info;")
@@ -92,9 +92,9 @@ class App < Sinatra::Base
     end
     json :cakeList => @cake_arr
   end
-end
 
-class App < Sinatra::Base
+
+
   post '/editBtn' do
     if params['edit']
       @newName = params['newName'] #fill with something
@@ -112,9 +112,9 @@ class App < Sinatra::Base
     end
     erb :edit
   end
-end
 
-class App < Sinatra::Base
+
+
   post '/deleteBtn' do
     @name = params['cake'] #fill with something
     @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
@@ -122,7 +122,7 @@ class App < Sinatra::Base
     @conn.close if @conn
     erb :edit
   end
-end
+
 
 
 =begin
