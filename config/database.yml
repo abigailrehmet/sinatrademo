@@ -1,37 +1,17 @@
 
-#development:
-#  adapter: postgresql
-#  encoding: unicode
-#  database: cakedb
-#  pool: 2
-#  username: postgres
-#  password: J3&ZD~Y68M"R`9fr
-#production:
-#  adapter: postgresql
-#  encoding: unicode
-#  pool: 5
-#  host: <%= ENV['DATABASE_HOST'] %>
-#  database: <%= ENV['DATABASE_NAME'] %>
-#  username: <%= ENV['DATABASE_USER'] %>
-#  password: <%= ENV['DATABASE_PASSWORD'] %>
-
 development:
   adapter: postgresql
   encoding: unicode
   database: cakedb
-  pool: 5
+  pool: 2
   username: postgres
   password: J3&ZD~Y68M"R`9fr
-  template: template0
-  host: localhost
-  port: 5432
 
 production:
   adapter: postgresql
   encoding: unicode
-  database: cakedb
   pool: 5
-  username: postgres
-  password: J3&ZD~Y68M"R`9fr
-  template: template0
-  host: localhost
+  host: <%= ENV['DATABASE_HOST'] %>
+  database: <%= ENV['DATABASE_NAME'] %>
+  username: <%= ENV['DATABASE_USER'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
