@@ -27,7 +27,7 @@ production:
   adapter: postgresql
   encoding: unicode
   pool: 5
-  host: <%= ENV['localhost'] %>
-  database: <%= ENV['cakedb'] %>
-  username: <%= ENV['postgres'] %>
-  password: <%= ENV['J3&ZD~Y68M"R`9fr'] %>
+  host: localhost
+  database: cakedb
+  username: postgres
+  password: J3&ZD~Y68M"R`9fr'
