@@ -19,12 +19,9 @@ development:
   adapter: postgresql
   encoding: unicode
   database: cakedb
-  pool: 5
+  pool: 2
   username: postgres
   password: J3&ZD~Y68M"R`9fr
-  template: template0
-  host: localhost
-  port: 5432
 
 production:
   adapter: postgresql
