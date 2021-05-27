@@ -21,91 +21,107 @@ require 'net/http'
 
 cake = Cake.new("hi")
 
-get '/' do
-  erb :add
-end
-
-post '/show' do
-  @name = params['cname']
-  cake.setName('#{@name}')
-  @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
-  #put the cake into db
-  @conn.exec("INSERT INTO info (name) VALUES ('#{@name}')")
-  @conn.close if @conn
-  erb :show
-end
-
-
-get '/show.json' do
-  @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
-  #get cake name from db
-  res = @conn.exec("select name from info order by id desc limit 1;")
-  c = Cake.new(res[0]["name"])
-  @cakename = c.getName()
-  #get the cake id from db
-  res = @conn.exec("SELECT id FROM info WHERE name = '#{@cakename}' limit 1;")
-  @id = res[0]["id"]
-  c.setId(@id)
-  @conn.close if @conn
-  json :yourCake => c
-end
-
-post '/index' do
-  erb :index
-end
-
-get '/index.json' do
-  @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
-  res = @conn.exec("SELECT name FROM info;")
-  @conn.close if @conn
-  @cake_arr = Array.new
-  res.each do |cake|
-    @cake_arr.push(cake)
+class App < Sinatra::Base
+  get '/' do
+    erb :add
   end
-  json :cakeList => @cake_arr
-  #"#{@cake_arr}"
 end
 
-post '/edit' do
-  erb :edit
-end
-
-get '/edit.json' do
-  @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
-  res = @conn.exec("SELECT name FROM info;")
-  @conn.close if @conn
-  @cake_arr = Array.new
-  res.each do |cake|
-    @cake_arr.push(cake)
-  end
-  json :cakeList => @cake_arr
-end
-
-post '/editBtn' do
-  if params['edit']
-    @newName = params['newName'] #fill with something
-    @oldName = params['cake'] #fill with something
-    #{}"#{@newName} , #{@oldName}"
+class App < Sinatra::Base
+  post '/show' do
+    @name = params['cname']
+    cake.setName('#{@name}')
     @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
-    @conn.exec("UPDATE info SET name = '#{@newName}' WHERE name = '#{@oldName}';")
+    #put the cake into db
+    @conn.exec("INSERT INTO info (name) VALUES ('#{@name}')")
     @conn.close if @conn
+    erb :show
   end
-  if params['delete']
+end
+
+class App < Sinatra::Base
+  get '/show.json' do
+    @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
+    #get cake name from db
+    res = @conn.exec("select name from info order by id desc limit 1;")
+    c = Cake.new(res[0]["name"])
+    @cakename = c.getName()
+    #get the cake id from db
+    res = @conn.exec("SELECT id FROM info WHERE name = '#{@cakename}' limit 1;")
+    @id = res[0]["id"]
+    c.setId(@id)
+    @conn.close if @conn
+    json :yourCake => c
+  end
+end
+
+class App < Sinatra::Base
+  post '/index' do
+    erb :index
+  end
+end
+
+class App < Sinatra::Base
+  get '/index.json' do
+    @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
+    res = @conn.exec("SELECT name FROM info;")
+    @conn.close if @conn
+    @cake_arr = Array.new
+    res.each do |cake|
+      @cake_arr.push(cake)
+    end
+    json :cakeList => @cake_arr
+    #"#{@cake_arr}"
+  end
+end
+
+class App < Sinatra::Base
+  post '/edit' do
+    erb :edit
+  end
+end
+
+class App < Sinatra::Base
+  get '/edit.json' do
+    @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
+    res = @conn.exec("SELECT name FROM info;")
+    @conn.close if @conn
+    @cake_arr = Array.new
+    res.each do |cake|
+      @cake_arr.push(cake)
+    end
+    json :cakeList => @cake_arr
+  end
+end
+
+class App < Sinatra::Base
+  post '/editBtn' do
+    if params['edit']
+      @newName = params['newName'] #fill with something
+      @oldName = params['cake'] #fill with something
+      #{}"#{@newName} , #{@oldName}"
+      @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
+      @conn.exec("UPDATE info SET name = '#{@newName}' WHERE name = '#{@oldName}';")
+      @conn.close if @conn
+    end
+    if params['delete']
+      @name = params['cake'] #fill with something
+      @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
+      @conn.exec("delete from info where name = '#{@name}';")
+      @conn.close if @conn
+    end
+    erb :edit
+  end
+end
+
+class App < Sinatra::Base
+  post '/deleteBtn' do
     @name = params['cake'] #fill with something
     @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
     @conn.exec("delete from info where name = '#{@name}';")
     @conn.close if @conn
+    erb :edit
   end
-  erb :edit
-
-end
-
-post '/deleteBtn' do
-  @name = params['cake'] #fill with something
-  @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
-  @conn.exec("delete from info where name = '#{@name}';")
-  @conn.close if @conn
-  erb :edit
 end
 
 
