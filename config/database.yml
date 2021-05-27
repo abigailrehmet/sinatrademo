@@ -1,9 +1,11 @@
 
 development:
   adapter: postgresql
-  host: localhost
-  username: user
-  database: app-dev
+  encoding: unicode
+  database: cakedb
+  pool: 2
+  username: postgres
+  password: J3&ZD~Y68M"R`9fr
 
 production:
   adapter: postgresql
