@@ -20,37 +20,11 @@
 
 
 
-  <p>Edit or delete a cake by typing in the boxes, followed by their respective buttons:
+  <p>Edit or delete a cake from the list by clicking the 'Edit list' button:
   </p>
-  <p>
-    old cake name: <input type="text" id="ogName">
-    new cake name: <input type="text" id="newName">
-    <button id="eBtn">Edit</button>
-  </p>
-  <p>
-    <input type="text" id="deleteName">
-    <button id="dBtn">Delete</button>
-  </p>
-
-  <script>
-
-    $(document).ready(function() {
-      $("#eBtn").click(function () {
-        var curNameInput = $('#ogName').val();
-        var newNameInput = $('#newName').val();
-        alert("Edit! " + curNameInput + " " + newNameInput);
-        //FIGURE OUT HOW TO POST HERE
-      });
-    });
-
-    $(document).ready(function() {
-      $("#dBtn").click(function () {
-        var delNameInput = $('#deleteName').val();
-        alert("Delete! " + delNameInput);
-        //FIGURE OUT HOW TO POST HERE
-      });
-    });
-  </script>
+  <form action="/edit" method="post" target="_blank">
+    <input type="submit" value="Edit List">
+  </form>
 
 
 

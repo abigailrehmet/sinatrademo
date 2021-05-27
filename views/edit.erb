@@ -2,12 +2,35 @@
 <head>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script type="text/javascript">
-
+    $( document ).ready( callEndpt );
+    function callEndpt() {
+      $.getJSON('/edit.json', function(data) {
+        data.cakeList.forEach((item, i) => {
+            $('#cake_list').append("<li><input type='radio' name ='cake' id='" +
+               item["name"] + "' value='" + item["name"] + "'>" + item["name"] + "</li>");
+        });
+      });
+    }
   </script>
 </head>
 <body>
 
-<h1>Edit page:</h1>
+<h1>Edit cakes:</h1>
+<p>To edit the name of a cake, select the cake you want to edit, type the new cake name in the box,
+  then click the 'Edit' button.
+</p>
+<form action="/editBtn" method="post" target="_blank">
+  <p>New cake name:
+  <input type="text" id="newName" name="newName">
+  <input type="submit" value="Edit" name="edit">
+  </p>
+  <p>To permanently delete a cake, select the cake you want to delete, then click the 'Delete' button
+    <input type="submit" value="Delete" name="delete">
+  </p>
+  <ol id="cake_list"> </ol>
+</form>
+
+
 
 </body>
 </html>

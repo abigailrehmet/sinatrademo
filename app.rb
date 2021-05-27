@@ -6,7 +6,6 @@ require 'pg'
 require 'uri'
 require 'net/http'
 
-#class App < Sinatra::Base
 
 =begin
   get '/' do
@@ -68,13 +67,45 @@ get '/index.json' do
 end
 
 post '/edit' do
-  #@old_name = params['oldName']
   erb :edit
 end
 
-post '/delete' do
-  #@old_name = params['oldName']
-  erb :delete
+get '/edit.json' do
+  @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
+  res = @conn.exec("SELECT name FROM info;")
+  @conn.close if @conn
+  @cake_arr = Array.new
+  res.each do |cake|
+    @cake_arr.push(cake)
+  end
+  json :cakeList => @cake_arr
+end
+
+post '/editBtn' do
+  if params['edit']
+    @newName = params['newName'] #fill with something
+    @oldName = params['cake'] #fill with something
+    #{}"#{@newName} , #{@oldName}"
+    @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
+    @conn.exec("UPDATE info SET name = '#{@newName}' WHERE name = '#{@oldName}';")
+    @conn.close if @conn
+  end
+  if params['delete']
+    @name = params['cake'] #fill with something
+    @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
+    @conn.exec("delete from info where name = '#{@name}';")
+    @conn.close if @conn
+  end
+  erb :edit
+
+end
+
+post '/deleteBtn' do
+  @name = params['cake'] #fill with something
+  @conn = PG.connect(dbname: 'cakedb', user: 'postgres', password: 'J3&ZD~Y68M"R`9fr')
+  @conn.exec("delete from info where name = '#{@name}';")
+  @conn.close if @conn
+  erb :edit
 end
 
 
@@ -97,48 +128,4 @@ cakeslist.close
 get '/cakes.json' do
     json :cakelist => cakes
 end
-=end
-
-
-
-
-
-#----------------------
-#by default, show the list
-=begin
-
-get('/') {
-  @cakes = Cake.all
-  erb :index
-}
-
-#add cakes
-get('/add') {
-  @cakes = Cake.all
-  erb :add
-}
-
-#edit cakes
-get('/edit') {
-  @cakes = Cake.all
-  erb :edit
-}
-
-#delete cakes
-get('/delete') {
-  @cakes = Cake.all
-  erb :delete
-}
-
-#show cakes
-get('/show') {
-  @cakes = Cake.all
-  erb :show
-}
-
-#list of cakes
-get('/index') {
-  @cakes = Cake.all
-  erb :index
-}
 =end
